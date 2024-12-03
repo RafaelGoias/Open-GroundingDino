@@ -111,4 +111,6 @@ match_unstable_error = True
 use_detached_boxes_dec_out = False
 dn_scalar = 100
 
-use_coco_eval = True
+use_coco_eval = False
+
+label_list = ['airconditioner', 'backpack', 'bathtub', 'bed', 'board', 'book', 'bottle', 'bowl', 'bucket', 'cabinet', 'chair', 'clock', 'clothes', 'computer', 'cup', 'cushion', 'door', 'extinguisher', 'fan', 'faucet', 'fireplace', 'heater', 'keyboard', 'light', 'microwave', 'mirror', 'mouse', 'outlet', 'oven', 'paper extraction', 'person', 'phone', 'picture', 'potted plant', 'refrigerator', 'shoes', 'shower head', 'sink', 'sofa', 'table', 'toilet', 'towel', 'tv', 'vase', 'washer', 'window', 'wine glass']
