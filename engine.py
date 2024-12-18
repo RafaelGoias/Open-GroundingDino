@@ -8,6 +8,8 @@ import os
 import sys
 from typing import Iterable
 
+import wandb
+
 from util.utils import to_device
 import torch
 
@@ -82,10 +84,15 @@ def train_one_epoch(model: torch.nn.Module, criterion: torch.nn.Module,
                 torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm)
             optimizer.step()
 
-        if args.onecyclelr:
+        if args.onecyclelr or args.slanted_triangular_lr:
             lr_scheduler.step()
 
-
+        logs = {
+            'loss': loss_value,
+            'lr': optimizer.param_groups[0]["lr"],
+            **loss_dict_reduced_scaled
+        }
+        wandb.log(logs)
         metric_logger.update(loss=loss_value, **loss_dict_reduced_scaled, **loss_dict_reduced_unscaled)
         if 'class_error' in loss_dict_reduced:
             metric_logger.update(class_error=loss_dict_reduced['class_error'])

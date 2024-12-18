@@ -1,8 +1,8 @@
 #!/bin/bash
 
-CFG=$1
-DATASETS=$2
-OUTPUT_DIR=$3
+CFG="config/cfg_odvg.py"
+DATASETS="config/datasets_mixed_odvg.json"
+OUTPUT_DIR="../output"
 
 # Definir a variável de ambiente para CUDA
 export CUDA_VISIBLE_DEVICES=0
