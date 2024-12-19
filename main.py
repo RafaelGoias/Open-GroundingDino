@@ -201,18 +201,18 @@ def main(args):
             sampler_train, args.batch_size, drop_last=True)
         data_loader_train = DataLoader(dataset_train, batch_sampler=batch_sampler_train,
                                     collate_fn=utils.collate_fn, num_workers=args.num_workers)
+        if args.onecyclelr:
+            lr_scheduler = torch.optim.lr_scheduler.OneCycleLR(optimizer, max_lr=args.lr, steps_per_epoch=len(data_loader_train), epochs=args.epochs, pct_start=0.2)
+        elif args.multi_step_lr:
+            lr_scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, milestones=args.lr_drop_list)
+        elif args.slanted_triangular_lr:
+            lr_scheduler = torch.optim.lr_scheduler.OneCycleLR(optimizer, max_lr=args.lr, steps_per_epoch=len(data_loader_train), epochs=args.epochs, anneal_strategy='linear')
+        else:
+            lr_scheduler = torch.optim.lr_scheduler.StepLR(optimizer, args.lr_drop)
 
     data_loader_val = DataLoader(dataset_val, 4, sampler=sampler_val,
                                  drop_last=False, collate_fn=utils.collate_fn, num_workers=args.num_workers)
 
-    if args.onecyclelr:
-        lr_scheduler = torch.optim.lr_scheduler.OneCycleLR(optimizer, max_lr=args.lr, steps_per_epoch=len(data_loader_train), epochs=args.epochs, pct_start=0.2)
-    elif args.multi_step_lr:
-        lr_scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, milestones=args.lr_drop_list)
-    elif args.slanted_triangular_lr:
-        lr_scheduler = torch.optim.lr_scheduler.OneCycleLR(optimizer, max_lr=args.lr, steps_per_epoch=len(data_loader_train), epochs=args.epochs, anneal_strategy='linear')
-    else:
-        lr_scheduler = torch.optim.lr_scheduler.StepLR(optimizer, args.lr_drop)
 
 
     base_ds = get_coco_api_from_dataset(dataset_val)
