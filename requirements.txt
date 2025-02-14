@@ -6,7 +6,7 @@ addict
 yapf==0.40.1
 timm
 torch==2.5.1
-torchvision
+torchvision==0.20.1
 transformers
 numpy
 opencv-python

@@ -92,6 +92,12 @@ Torne o script executável:
     chmod +x Open-GroundingDino/train_dist.sh
 ```
 
+### Passo 14: Instalar pacotes necessários:
+
+```
+    apt-get update && apt-get install ffmpeg libsm6 libxext6  -y
+```
+
 ### Iniciar o Treinamento:
 
 ```python
